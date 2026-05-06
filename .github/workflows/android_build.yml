@@ -31,9 +31,11 @@ jobs:
       - name: Verify Build
         run: ls -R dist
 
-      - name: Sync with Capacitor
+      - name: Setup Capacitor and Android
         run: |
-          npx cap sync android --verbose || (npx cap add android && npx cap sync android --verbose)
+          rm -rf android
+          npx cap add android
+          npx cap sync android --verbose
 
       - name: Setup Java
         uses: actions/setup-java@v4
