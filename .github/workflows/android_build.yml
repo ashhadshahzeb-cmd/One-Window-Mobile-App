@@ -28,8 +28,12 @@ jobs:
           VITE_SUPABASE_URL: https://lhnogjmeyqbuoiruykpw.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_t4svZ8krxb9VqkPA0epoDQ_s-av_vnE
 
+      - name: Verify Build
+        run: ls -R dist
+
       - name: Sync with Capacitor
-        run: npx cap sync android
+        run: |
+          npx cap sync android --verbose || (npx cap add android && npx cap sync android --verbose)
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -41,7 +45,7 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
