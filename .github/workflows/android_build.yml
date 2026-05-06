@@ -22,7 +22,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install @capacitor/cli @capacitor/core @capacitor/android
+          npm install @capacitor/cli@6 @capacitor/core@6 @capacitor/android@6
 
       - name: Build Web Project
         run: npm run build
@@ -30,9 +30,12 @@ jobs:
           VITE_SUPABASE_URL: https://lhnogjmeyqbuoiruykpw.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_t4svZ8krxb9VqkPA0epoDQ_s-av_vnE
 
+      - name: Check Build Output
+        run: ls -la dist
+
       - name: Capacitor Sync
         run: |
-          npx cap sync android --verbose || (npx cap add android && npx cap sync android)
+          npx cap sync android || (npx cap add android && npx cap sync android)
 
       - name: Setup Java
         uses: actions/setup-java@v4
